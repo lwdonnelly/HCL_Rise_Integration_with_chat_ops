@@ -1,10 +1,9 @@
 from db import db
-from flask import jsonify
-import json
 
 class DataModel(db.Model):
     __tablename__ = 'API_data'
-    login = db.Column(db.Text, primary_key=True)
+    __table_args__ = {'schema': 'nsds'}
+    login = db.Column(db.VARCHAR(length=200), primary_key=True)
     id = db.Column(db.Integer, primary_key=True)
     node_id = db.Column(db.Text)
     url = db.Column(db.Text)
@@ -28,7 +27,7 @@ class DataModel(db.Model):
         return cls.query.filter_by(login=login).first()
 
     @classmethod
-    def find_by_login(cls, _id):
+    def find_by_id(cls, _id):
         return cls.query.filter_by(id=_id).first()
 
     @classmethod

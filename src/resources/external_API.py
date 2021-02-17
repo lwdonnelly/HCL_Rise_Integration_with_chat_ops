@@ -28,7 +28,7 @@ class External_Data(Resource):
         models = []
 
         for r in responseData:
-            if(DataModel.find_by_login(r['login'])) is not None:
+            if(DataModel.find_by_login(r['login'])) is None:
                 models.append(DataModel(r['login'], r['id'], r['node_id'], r['url'], r['avatar_url'], r['description']))
 
         try:
