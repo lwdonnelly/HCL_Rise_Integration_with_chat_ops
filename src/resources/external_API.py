@@ -41,8 +41,6 @@ class External_Data(Resource):
 
 
     def get(self):
-        data = External_Data.parser.parse_args()
-
         models = DataModel.find_all()
 
 
