@@ -13,8 +13,7 @@ class External_Data(Resource):
     )
 
 
-    def put(self):
-
+    def post(self):
         args = External_Data.parser.parse_args()
 
         try:
@@ -24,12 +23,18 @@ class External_Data(Resource):
         if(response.status_code != 200):
             return {'message':'An error occurred retrieving the data'}, 500
 
-        responseData = response.json()
+        try:
+            responseData = response.json()
+        except:
+            return {"message":"URL not compatible"}, 500
         models = []
 
-        for r in responseData:
-            if(DataModel.find_by_login(r['login'])) is None:
-                models.append(DataModel(r['login'], r['id'], r['node_id'], r['url'], r['avatar_url'], r['description']))
+        try:
+            for r in responseData:
+                if(DataModel.find_by_login(r['login'])) is None:
+                    models.append(DataModel(r['login'], r['id'], r['node_id'], r['url'], r['avatar_url'], r['description']))
+        except:
+            return {"message":"URL not compatible"}, 500
 
         try:
             DataModel.save_list_to_db(models)
